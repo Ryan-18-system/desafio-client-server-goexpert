@@ -17,7 +17,7 @@ func InsertQuote(quote model.QuoteResponse) error {
 	}
 	tx, err := DB.BeginTx(ctx, nil)
 	if err != nil {
-		return util.HandlerErro(err)
+		return util.HandlerError(err)
 	}
 	// própria doc do go indica - https://go.dev/doc/database/execute-transactions
 	defer tx.Rollback()
@@ -26,17 +26,17 @@ func InsertQuote(quote model.QuoteResponse) error {
 			VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`)
 	if err != nil {
-		return util.HandlerErro(err)
+		return util.HandlerError(err)
 	}
 	defer stmt.Close()
 	_, err = stmt.ExecContext(ctx, quote.USDBRL.Code, quote.USDBRL.Codein, quote.USDBRL.Name, quote.USDBRL.High, quote.USDBRL.Low,
 		quote.USDBRL.VarBid, quote.USDBRL.PctChange, quote.USDBRL.Bid, quote.USDBRL.Ask, quote.USDBRL.Timestamp, quote.USDBRL.CreateDate)
 	if err != nil {
-		return util.HandlerErro(err)
+		return util.HandlerError(err)
 	}
 	err = tx.Commit()
 	if err != nil {
-		return util.HandlerErro(err)
+		return util.HandlerError(err)
 	}
 	return nil
 }

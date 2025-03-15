@@ -25,12 +25,12 @@ func GetCurrentQuote() (*model.QuoteResponse, error) {
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 
-		return nil, util.HandlerErro(err)
+		return nil, util.HandlerError(err)
 	}
 	defer resp.Body.Close()
 	responseJson, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, util.HandlerErro(err)
+		return nil, util.HandlerError(err)
 	}
 	var quote *model.QuoteResponse
 	json.Unmarshal(responseJson, &quote)
